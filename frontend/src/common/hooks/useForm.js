@@ -11,8 +11,8 @@ const useForm = (initialValues) => {
         }));
     };
 
-    const resetForm = () => {
-        setFormData(initialValues);
+    const resetForm = (newValues = initialValues) => {
+        setFormData(newValues);
     };
 
     return {

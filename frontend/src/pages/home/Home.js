@@ -24,10 +24,15 @@ import {
     useGetTasksQuery,
     useGetTaskSummaryQuery,
     usePauseTaskMutation,
-    useStartTaskMutation
+    useStartTaskMutation, useUpdateTaskTotalTimeMutation
 } from "../../services/api/tasks/tasksApi";
-import { useCallback, useEffect, useRef, useState} from "react";
-import {formatDateToDDMMYYYY, formatSecondsToHHmm} from "../../common/functions/functions";
+import {useCallback, useEffect, useRef, useState} from "react";
+import {
+    formatDateToDDMMYYYY,
+    formatSecondsToHHmm,
+    secondsToTimeObject,
+    timeObjectToSeconds
+} from "../../common/functions/functions";
 import useForm from "../../common/hooks/useForm";
 import useModal from "../../common/hooks/useModal";
 
@@ -110,10 +115,23 @@ export const Home = () => {
 
 const UpdateTaskModal = ({open, onClose, data}) => {
     const [deleteTask] = useDeleteTaskMutation();
+    const [updateTotalTime] = useUpdateTaskTotalTimeMutation();
+    const {formData, handleChange, resetForm} = useForm({hours: 0, minutes: 0});
+
+    useEffect(() => {
+        if (data?.totalTime) {
+            resetForm(secondsToTimeObject(data.totalTime));
+        }
+    }, [data]);
 
     const handleDeleteTask = () => {
         deleteTask(data.id)
         onClose()
+    }
+
+    const handleUpdateTotalTime = () => {
+        updateTotalTime({id: data.id, newTotalTime: timeObjectToSeconds(formData)}).unwrap();
+        onClose();
     }
 
     return (
@@ -122,7 +140,25 @@ const UpdateTaskModal = ({open, onClose, data}) => {
                        title="Aktualizace záznamu"
         >
             <Stack spacing={2}>
-                <Button variant="contained" onClick={handleDeleteTask}>Odstranit</Button>
+                <Typography color="gray">Odpracováno</Typography>
+                <Stack direction={"row"} spacing={2}>
+                    <TextField label="Hodiny"
+                               name={"hours"}
+                               fullWidth
+                               value={formData.hours}
+                               onChange={handleChange}
+                    />
+                    <TextField label="Minuty"
+                               name={"minutes"}
+                               fullWidth
+                               value={formData.minutes}
+                               onChange={handleChange}
+                    />
+                </Stack>
+                <Stack direction={"row"} spacing={2}>
+                    <Button variant="contained" color={"error"} onClick={handleDeleteTask} fullWidth>Odstranit</Button>
+                    <Button variant="contained" onClick={handleUpdateTotalTime} fullWidth>uložit</Button>
+                </Stack>
             </Stack>
         </ReusableModal>
     )

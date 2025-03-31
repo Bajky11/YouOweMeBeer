@@ -169,6 +169,32 @@ public class TaskController {
         return ResponseEntity.notFound().build();
     }
 
+    @PatchMapping("/{id}/set-time")
+    public ResponseEntity<Task> setTaskTime(@PathVariable Long id, @RequestParam Long newTotalTime) {
+        Optional<Task> optionalTask = taskRepository.findById(id);
+
+        if (optionalTask.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Task task = optionalTask.get();
+
+        // Zajištění nezáporné hodnoty
+        long safeTotalTime = Math.max(newTotalTime, 0);
+        task.setTotalTime(safeTotalTime);
+
+        // Přepočet earnings
+        BigDecimal timeHours = BigDecimal.valueOf(safeTotalTime)
+                .divide(BigDecimal.valueOf(3600), 4, RoundingMode.HALF_UP);
+        BigDecimal newEarnings = task.getHourlyRate().multiply(timeHours);
+        task.setEarnings(newEarnings);
+
+        // Uložení změn
+        Task updatedTask = taskRepository.save(task);
+
+        return ResponseEntity.ok(updatedTask);
+    }
+
 
     // "http://localhost:8080/tasks/1/pause"
 

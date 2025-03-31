@@ -20,3 +20,15 @@ export const formatDateToDDMMYYYY = (isoString) => {
     const year = date.getFullYear();
     return `${day}.${month}.${year}`;
 };
+
+export function secondsToTimeObject(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    return { hours, minutes };
+}
+
+export function timeObjectToSeconds({ hours, minutes }) {
+    const h = parseInt(hours, 10) || 0;
+    const m = parseInt(minutes, 10) || 0;
+    return h * 3600 + m * 60;
+}

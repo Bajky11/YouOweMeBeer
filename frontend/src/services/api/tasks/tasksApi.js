@@ -90,6 +90,13 @@ export const tasksApi = createApi({
             },
             providesTags: ['Summary'],
         }),
+        updateTaskTotalTime: builder.mutation({
+            query: ({id, newTotalTime}) => ({
+                url: `/tasks/${id}/set-time?newTotalTime=${newTotalTime}`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['Tasks', 'Summary'],
+        })
     }),
 });
 
@@ -104,6 +111,7 @@ export const {
     useCompleteTaskMutation,
     useAdjustTaskTimeMutation,
     useGetTaskSummaryQuery,
+    useUpdateTaskTotalTimeMutation,
 } = tasksApi;
 
 /*
