@@ -4,6 +4,12 @@ spring:
     username: user
     password: password
     driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5        # max. 5 současných spojení
+      minimum-idle: 1             # drž jen 1 nečinné spojení
+      idle-timeout: 15000         # 15s nečinnosti = zavři spojení
+      max-lifetime: 60000         # max životnost spojení 60s
+      connection-timeout: 3000    # 3s timeout při čekání na spojení
 
   jpa:
     hibernate:
