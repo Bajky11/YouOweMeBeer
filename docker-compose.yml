@@ -8,7 +8,7 @@ services:
     environment:
       POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
       POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-      POSTGRES_DB: timeIsMoney_db
+      POSTGRES_DB: youOweMeBeer_db
       PGPORT: "${DB_PORT}"
     ports:
       - "${DB_PORTS}"

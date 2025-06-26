@@ -1,6 +1,7 @@
 import {IconButton, Stack, Typography} from "@mui/material";
 import {useLocation, useNavigate} from "react-router-dom";
-import {Home, Menu} from "@mui/icons-material";
+import {Group, Home, Login, Menu, Settings} from "@mui/icons-material";
+import { LoginScreen } from "../pages/login/Login";
 
 export const BottomNavigation = () => {
     const navigate = useNavigate();
@@ -11,14 +12,14 @@ export const BottomNavigation = () => {
             <BottomNavigationItem
                 onClick={() => navigate("/home")}
                 selected={location.pathname === "/home"}
-                label={"Home"}
-                Icon={<Home/>}
+                label={"Groups"}
+                Icon={<Group/>}
             />
             <BottomNavigationItem
                 onClick={() => navigate("/options")}
                 selected={location.pathname === "/options"}
-                label={"Oprions"}
-                Icon={<Menu/>}
+                label={"Settings"}
+                Icon={<Settings/>}
             />
         </Stack>
     )

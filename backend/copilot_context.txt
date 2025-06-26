@@ -1,0 +1,80 @@
+Cíl:
+Aplikace umožní správu uživatelských účtů, skupin a jejich členů, evidenci a úpravu pivních dluhů a zobrazení statistik ve skupině.
+
+Zadání projektu
+
+1.Uživatelé
+Přihlášení pouze pomocí zvoleného uživatelského jména (bez hesla).
+Přihlášení automatizované pomocí tokenu (klidně username v cookies)
+CRUD nad uživatelem: každý uživatel může upravit nebo smazat svůj vlastní účet.
+
+2.Skupiny (události)
+Uživatel může vytvořit novou skupinu (událost) nebo se připojit do existující pomocí unikátního kódu.
+CRUD nad skupinou: vytvoření, úprava názvu, smazání skupiny.
+Správa skupiny: správce skupiny může odebírat uživatele ze skupiny.
+Přidávání uživatelů do skupiny probíhá automaticky po zadání unikátního klíče.
+
+3.Evidence piv
+Uživatel zadá, kdo komu koupil pivo (výběr ze seznamu uživatelů ve skupině).
+Po zadání se automaticky aktualizuje přehled dluhů.
+
+4.Přehled dluhů
+Zobrazení tabulky nebo seznamu, kde je vidět, kdo komu kolik piv dluží.
+
+5.Editace dluhů
+Každý uživatel může jednoduše upravovat dluhy (přičítat nebo odečítat piva), pokud udělal chybu.
+
+6.Statistiky a žebříček (optional)
+Přehled, kolik kdo celkem vypil piv.
+Jednoduchý žebříček (ranking) podle počtu vypitých piv.
+
+Zde je velmi jednoduchý návrh databázové struktury (relace, atributy, propojení):
+
+Tabulka: users
+
+id (PK)
+username
+Tabulka: groups
+
+id (PK)
+name
+join_code
+Tabulka: group_members
+
+id (PK)
+group_id (FK → ⁦groups.id⁩)
+user_id (FK → ⁦users.id⁩)
+is_admin (bool)
+Tabulka: beers
+
+id (PK)
+group_id (FK → ⁦groups.id⁩)
+from_user_id (FK → ⁦users.id⁩) // kdo koupil
+to_user_id (FK → ⁦users.id⁩) // komu koupil
+count (default 1)
+created_at
+
+
+
+
+1. loginScreen
+    - login pomocí jmena na homesceen -OK TODO: uložit do state a cookies
+
+2. homeScreen
+    - vytvořit skupinu -OK -OK
+    - přidat se do skupiny -OK -OK
+    - otevřít skupinu (pokud existuje) -OK -OK
+
+3. userSettingsModal
+    - změna jmena -OK -OK
+    - odstranit účet -OK -OK
+
+4. groupScreen
+    - kdo komu dluží pivo -OK -OK
+    - zadání komu jsem koupil pivo (výber z více lidí, bude se muset poslat více requestů) -OK -OK
+    - vypil jsem pivko sám! -OK -OK
+    - ranking kdo vypil kolik piv -OK -OK
+    - pivní transakce -OK -OK
+
+5. groupSettingsModal
+    - zobrazení ID skupiny (možnost kopírování) -OK -OK

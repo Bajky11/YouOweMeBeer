@@ -1,30 +1,25 @@
 package com.friends.friends.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Table(name = "users")
+import java.util.Set;
+
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity
+@Table(name = "users")
 public class User {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
-
-    @Column(name = "password", nullable = false)
-    private String password;
-
+    @ManyToMany(mappedBy = "users")
+    @JsonIgnore
+    private Set<Group> groups;
 }
