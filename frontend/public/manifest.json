@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "YouOweMeBeer",
+  "name": "YouOweMeBeer",
+  "description": "Track how many beers your frineds owe you! Dont forget to get your beers back!",
   "icons": [
     {
       "src": "favicon.ico",
