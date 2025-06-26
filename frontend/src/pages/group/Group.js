@@ -18,9 +18,15 @@ export const Group = () => {
     const dispatch = useDispatch();
     const [showDebts, setShowDebts] = useState(true);
     const { data: group, isLoading: groupLoading } = useGetGroupByIdQuery(id);
-    const { data: debt, isLoading: debtsLoading } = useGetDebtsByGroupQuery(id);
-    const { data: received, isLoading: receivedLoading } = useGetTotalBeersReceivedByUserQuery(id);
-    const { data: beers, isLoading: beersByGroupLoading } = useGetBeersByGroupIdQuery(id);
+    const { data: debt, isLoading: debtsLoading } = useGetDebtsByGroupQuery(id, {
+        pollingInterval: 5000,
+    });
+    const { data: received, isLoading: receivedLoading } = useGetTotalBeersReceivedByUserQuery(id, {
+        pollingInterval: 5000,
+    });
+    const { data: beers, isLoading: beersByGroupLoading } = useGetBeersByGroupIdQuery(id, {
+        pollingInterval: 30000,
+    });
     const [createBeer] = useCreateBeerMutation();
 
     const {
